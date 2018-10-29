@@ -1,0 +1,109 @@
+apply plugin: "java"
+apply plugin: "maven"
+apply plugin: "application"
+apply plugin: "idea"
+apply plugin: "cpp"
+apply plugin: "c"
+apply plugin: "signing"
+
+ext {
+    openZWaveDir = project.hasProperty("openZWaveDir") ? project.openZWaveDir: "../open-zwave"
+
+    openZWaveConfigDir = project.hasProperty("openZWaveConfigDir") ? project.openZWaveConfigDir: "../open-zwave/config"
+    zWaveControllerPort = project.hasProperty("zWaveControllerPort") ? project.zWaveControllerPort: "/dev/ttyUSB0"
+
+    release = project.hasProperty("release") ? Boolean.valueOf(project.release) : false
+    signEnabled = project.hasProperty("signEnabled") ? Boolean.valueOf(project.signEnabled) : false
+    sonatypeUsername = project.hasProperty("sonatypeUsername") ? project.sonatypeUsername : ""
+    sonatypePassword = project.hasProperty("sonatypePassword") ? project.sonatypePassword : ""
+
+    nativeClasses = ["org.zwave4j.Manager", "org.zwave4j.Options"]
+
+    additionalNativeLibsDir = "native_libs"
+
+    jarNativeLibsDir = "native_libs"
+
+    generatedNativeHeadersDir = "$project.buildDir/native-headers"
+
+    def osName = System.getProperty("os.name")
+    if (osName.equals("Linux")) {
+        currentOs = "linux"
+    } else if (osName.startsWith("Windows")) {
+        currentOs = "windows"
+    } else if (osName.endsWith("OS X")) {
+        currentOs = "osx"
+    }
+
+    def architecture = System.getProperty("os.arch")
+    if (architecture.endsWith("86")) {
+        currentArch = "x86"
+    } else if (architecture.equals("arm")) {
+        currentArch = "arm"
+    } else if (architecture.equals("amd64") || architecture.equals("x86_64")) {
+        currentArch = "x86-64"
+    }
+}
+
+group = "com.github.zgmnkv"
+version = "1.0" + (release ? "" : "-SNAPSHOT")
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+mainClassName = "org.zwave4j.Main"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+task generateNativeHeaders(type: Exec, dependsOn: compileJava) {
+    inputs.dir(sourceSets.main.output.classesDir)
+    outputs.dir(generatedNativeHeadersDir)
+
+    commandLine "javah"
+    args "-d", generatedNativeHeadersDir
+    args "-classpath", sourceSets.main.runtimeClasspath.asPath
+    args nativeClasses
+}
+
+model {
+    tasks {
+        processResources {
+            from additionalNativeLibsDir, {
+                into jarNativeLibsDir
+            }
+        }
+    }
+}
+
+run {
+    standardInput = System.in
+    jvmArgs([
+            "-Xdebug",
+            "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+    ])
+    args([
+            openZWaveConfigDir,
+            zWaveControllerPort
+    ])
+}
+
+task sourcesJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    classifier "javadoc"
+    from javadoc
+}
+
+task configZip(type: Zip) {
+    from openZWaveConfigDir
+    classifier "ozw_config"
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives configZip
+}
