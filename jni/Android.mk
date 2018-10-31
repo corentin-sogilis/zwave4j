@@ -18,13 +18,13 @@ $(warning $(OZW_MAIN_LIST))
 
 OZW_TINYXML_LIST = $(wildcard $(OPENZWAVE_DIR)/cpp/tinyxml/*.cpp)
 
-ZWAVE4J_JNI_BINDINGS_LIST = $(wildcard $(LOCAL_PATH)/src/main/cpp/*.cpp)
+ZWAVE4J_JNI_BINDINGS_LIST = $(wildcard $(LOCAL_PATH)/../src/main/cpp/*.cpp)
 
 LOCAL_C_INCLUDES := $(OPENZWAVE_DIR)/cpp/src \
                     $(OPENZWAVE_DIR)/cpp/tinyxml \
-                    $(LOCAL_PATH)/build/jni_include
+                    $(LOCAL_PATH)/../build/jni_include
 
-LOCAL_MODULE := openzwave
+LOCAL_MODULE := zwave4j
 LOCAL_SRC_FILES := $(OZW_MAIN_LIST:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES += $(OZW_TINYXML_LIST:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES += $(ZWAVE4J_JNI_BINDINGS_LIST:$(LOCAL_PATH)/%=%)

@@ -19,6 +19,16 @@ public class NativeLibraryLoader {
     private static final String TEMP_FILE_PREFIX = "native-lib-";
 
     public static void loadLibrary(String libraryName, Class clazz) {
+        if (isAndroid()) {
+            /**
+             * On Android Studio, please place native libraries in :
+             * <project>/app/src/main/jniLibs/<arch>/lib<libraryName>.so
+             * where arch is in [ armeabi-v7a, x86, x86_64 ]
+             */
+            System.loadLibrary(libraryName);
+            return;
+        }
+
         String libraryPath = getLibraryPath(libraryName);
 
         File tempLibraryFile;
@@ -46,6 +56,8 @@ public class NativeLibraryLoader {
         //noinspection ResultOfMethodCallIgnored
         tempLibraryFile.delete();
     }
+
+    public static native String getOpenZWaveVersion();
 
     private static String getLibraryPath(String libraryName) {
         StringBuilder libraryPathBuilder = new StringBuilder("/" + NATIVE_LIBS_DIRECTORY_NAME + "/");
@@ -90,6 +102,10 @@ public class NativeLibraryLoader {
 
     private static boolean isOSX(String osName) {
         return osName.endsWith("OS X");
+    }
+
+    private static boolean isAndroid() {
+        return System.getProperty("java.vendor").equals("The Android Project");
     }
 
     private static boolean isX86(String architecture) {

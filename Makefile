@@ -1,7 +1,7 @@
 ZWAVE4J_JARDIR = build/libs
 ZWAVE4J_JAR = $(ZWAVE4J_JARDIR)/zwave4j-1.0-SNAPSHOT.jar
-ZWAVE4J_NATIVE_LIBSDIR=$(ZWAVE4J_JARDIR)/native_libs
-ZWAVE4J_JNI_CLASSES = org.zwave4j.Manager org.zwave4j.Options
+ZWAVE4J_NATIVE_LIBSDIR=$(ZWAVE4J_JARDIR)/jniLibs
+ZWAVE4J_JNI_CLASSES = org.zwave4j.Manager org.zwave4j.Options org.zwave4j.NativeLibraryLoader
 ZWAVE4J_NDK_OBJDIR = build/obj
 
 ZWAVE4J_JNI_INCLUDE_DIR = build/jni_include
