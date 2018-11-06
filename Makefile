@@ -23,7 +23,7 @@ $(ZWAVE4J_JNI_INCLUDE_DIR):
 	mkdir -p $@
 
 clean:
-	rm -r build
+	rm -rf build
 
 run:
 	java -cp "$(ZWAVE4J_JAR):$(ZWAVE4J_JARDIR)" org.zwave4j.Main $(OPENZWAVE_DIR)
