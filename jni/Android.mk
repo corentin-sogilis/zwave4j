@@ -7,11 +7,11 @@ LOCAL_CPP_FEATURES := exceptions
 
 OPENZWAVE_DIR := $(LOCAL_PATH)/../../open-zwave
 
-OZW_MAIN_LIST = $(wildcard $(OPENZWAVE_DIR)/cpp/src/aes/*.c				\
-                           $(OPENZWAVE_DIR)/cpp/src/command_classes/*.cpp	\
-                           $(OPENZWAVE_DIR)/cpp/src/value_classes/*.cpp		\
-                           $(OPENZWAVE_DIR)/cpp/src/platform/*.cpp			\
-                           $(OPENZWAVE_DIR)/cpp/src/platform/unix/*.cpp		\
+OZW_MAIN_LIST = $(wildcard $(OPENZWAVE_DIR)/cpp/src/aes/*.c                 \
+                           $(OPENZWAVE_DIR)/cpp/src/command_classes/*.cpp   \
+                           $(OPENZWAVE_DIR)/cpp/src/value_classes/*.cpp     \
+                           $(OPENZWAVE_DIR)/cpp/src/platform/*.cpp          \
+                           $(OPENZWAVE_DIR)/cpp/src/platform/android/*.cpp  \
                            $(OPENZWAVE_DIR)/cpp/src/*.cpp)
 
 $(warning $(OZW_MAIN_LIST))
