@@ -22,7 +22,7 @@ ZWAVE4J_JNI_BINDINGS_LIST = $(wildcard $(LOCAL_PATH)/../src/main/cpp/*.cpp)
 
 LOCAL_C_INCLUDES := $(OPENZWAVE_DIR)/cpp/src \
                     $(OPENZWAVE_DIR)/cpp/tinyxml \
-                    $(LOCAL_PATH)/../build/jni_include
+                    $(LOCAL_PATH)/../build/native-headers
 
 LOCAL_MODULE := zwave4j
 LOCAL_SRC_FILES := $(OZW_MAIN_LIST:$(LOCAL_PATH)/%=%)
