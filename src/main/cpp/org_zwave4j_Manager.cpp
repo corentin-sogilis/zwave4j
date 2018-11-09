@@ -515,7 +515,11 @@ void onNotification(OpenZWave::Notification const * ozwNotification, void * cont
     int getEnvResult = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
     if (getEnvResult == JNI_EDETACHED)
     {
+#ifdef ANDROID
         jvm->AttachCurrentThread(&env, NULL);
+#else
+        jvm->AttachCurrentThread((void **) &env, NULL);
+#endif
     }
 
     std::pair<jobject, jobject> * pair = (std::pair<jobject, jobject> *) context;
@@ -536,7 +540,11 @@ void onControllerCallback(OpenZWave::Driver::ControllerState ozwState, OpenZWave
     int getEnvResult = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
     if (getEnvResult == JNI_EDETACHED)
     {
+#ifdef ANDROID
         jvm->AttachCurrentThread(&env, NULL);
+#else
+        jvm->AttachCurrentThread((void **) &env, NULL);
+#endif
     }
 
     std::pair<jobject, jobject> * pair = (std::pair<jobject, jobject> *) context;

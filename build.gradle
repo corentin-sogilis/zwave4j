@@ -17,7 +17,7 @@ ext {
     sonatypeUsername = project.hasProperty("sonatypeUsername") ? project.sonatypeUsername : ""
     sonatypePassword = project.hasProperty("sonatypePassword") ? project.sonatypePassword : ""
 
-    nativeClasses = ["org.zwave4j.Manager", "org.zwave4j.Options"]
+    nativeClasses = ["org.zwave4j.Manager", "org.zwave4j.Options", "org.zwave4j.NativeLibraryLoader"]
 
     additionalNativeLibsDir = "native_libs"
 
