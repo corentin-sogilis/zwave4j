@@ -46,6 +46,21 @@ It will compile native JNI binaries and java classes, assemble `jar` archive and
 Native binaries for platforms supported by your host will be built.
 To include native binaries for other platforms into compiled `jar`, put `native_libs` directory from other ZWave4J `jar`s in the project root directory.
 
+### Build using docker
+
+If you have trouble building zwave you can also use a docker container. First create the docker image :
+
+```
+make image
+```
+
+Once image is created, you can build using the Makefile :
+
+```
+make
+make clean
+```
+
 ### After build
 
 If you have built a library from sources, you can use several options:
