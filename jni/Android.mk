@@ -14,8 +14,6 @@ OZW_MAIN_LIST = $(wildcard $(OPENZWAVE_DIR)/cpp/src/aes/*.c                 \
                            $(OPENZWAVE_DIR)/cpp/src/platform/android/*.cpp  \
                            $(OPENZWAVE_DIR)/cpp/src/*.cpp)
 
-$(warning $(OZW_MAIN_LIST))
-
 OZW_TINYXML_LIST = $(wildcard $(OPENZWAVE_DIR)/cpp/tinyxml/*.cpp)
 
 ZWAVE4J_JNI_BINDINGS_LIST = $(wildcard $(LOCAL_PATH)/../src/main/cpp/*.cpp)
