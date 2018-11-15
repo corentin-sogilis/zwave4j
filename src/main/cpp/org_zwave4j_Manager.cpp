@@ -531,7 +531,25 @@ void onNotification(OpenZWave::Notification const * ozwNotification, void * cont
 		pair->second
 	);
 
-	jvm->DetachCurrentThread();
+	/* XXX: Fix error "attempting to detach while still running code"
+	 *
+	 * All calls from OpenZWave to Java function through ZWave4j
+	 * follow this chronology :
+	 *
+	 *     1. Call GetEnv to know the thread state in the JVM
+	 *     2. If state is EDETACHED, call AttachCurrentThread
+	 *     3. Call method
+	 *     4. Call DetachCurrentThread
+	 *
+	 * This means ZWave4j always detach the thread after a method
+	 * call. Therefore, in this function, an already attached thread
+	 * must have been created by the JVM, following a call to a C++
+	 * method from Java. In this case, we must not detach the thread
+	 * as it is still running on the Java side.
+	 */
+	if (getEnvResult != JNI_OK) {
+		jvm->DetachCurrentThread();
+	}
 }
 
 void onControllerCallback(OpenZWave::Driver::ControllerState ozwState, OpenZWave::Driver::ControllerError ozwErr, void* context)
@@ -573,6 +591,8 @@ void onControllerCallback(OpenZWave::Driver::ControllerState ozwState, OpenZWave
         delete pair;
     }
 
+	// XXX: No check performed on the thread origin before detach.
+	// See onNotification method comment above.
 	jvm->DetachCurrentThread();
 }
 
